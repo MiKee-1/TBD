@@ -1,0 +1,127 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>Create Account</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name" placeholder="John" maxlength="50" />
+            @if (registerForm.get('first_name')?.hasError('required')) {
+              <mat-error>First name is required</mat-error>
+            }
+            @if (registerForm.get('first_name')?.hasError('maxlength')) {
+              <mat-error>First name is too long (maximum is 50 characters)</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name" placeholder="Doe" maxlength="50" />
+            @if (registerForm.get('last_name')?.hasError('required')) {
+              <mat-error>Last name is required</mat-error>
+            }
+            @if (registerForm.get('last_name')?.hasError('maxlength')) {
+              <mat-error>Last name is too long (maximum is 50 characters)</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="your@email.com" maxlength="255" />
+          @if (registerForm.get('email')?.hasError('required')) {
+            <mat-error>Email is required</mat-error>
+          }
+          @if (registerForm.get('email')?.hasError('email')) {
+            <mat-error>Please enter a valid email</mat-error>
+          }
+          @if (registerForm.get('email')?.hasError('maxlength')) {
+            <mat-error>Email is too long (maximum is 255 characters)</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address (Optional)</mat-label>
+          <input matInput formControlName="address" placeholder="123 Main St, City, ZIP" maxlength="255" />
+          @if (registerForm.get('address')?.hasError('maxlength')) {
+            <mat-error>Address is too long (maximum is 255 characters)</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input 
+            matInput 
+            [type]="hidePassword() ? 'password' : 'text'" 
+            formControlName="password" 
+            placeholder="Password" 
+          />
+          <button 
+            mat-icon-button 
+            matSuffix 
+            type="button"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="hidePassword() ? 'Mostra password' : 'Nascondi password'"
+          >
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (registerForm.get('password')?.hasError('required')) {
+            <mat-error>Password è obbligatoria</mat-error>
+          }
+          @if (registerForm.get('password')?.hasError('minlength')) {
+            <mat-error>Password deve contenere almeno 6 caratteri</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Conferma Password</mat-label>
+          <input 
+            matInput 
+            [type]="hidePassword() ? 'password' : 'text'" 
+            formControlName="password_confirmation" 
+            placeholder="Password" 
+          />
+          <button 
+            mat-icon-button 
+            matSuffix 
+            type="button"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="hidePassword() ? 'Mostra password' : 'Nascondi password'"
+          >
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (registerForm.hasError('passwordMismatch') && registerForm.get('password_confirmation')?.touched) {
+            <mat-error>Le password non corrispondono</mat-error>
+          }
+          @if (registerForm.get('password_confirmation')?.hasError('required')) {
+            <mat-error>Conferma Password è obbligatoria</mat-error>
+          }
+        </mat-form-field>
+
+        @if (error()) {
+          <div class="error-message">
+            {{ error() }}
+          </div>
+        }
+
+        <div class="button-container">
+          @if (loading()) {
+            <mat-spinner diameter="40"></mat-spinner>
+          } @else {
+            <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">
+              Register
+            </button>
+          }
+        </div>
+
+        <div class="login-link">
+          Already have an account? <a routerLink="/login">Login here</a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,66 @@
+.header {
+    background: #5e3f2a;
+    max-width: 100%;
+    margin: 0;
+    padding: 10px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    box-shadow: 0 4px 0.7rem rgba(92, 51, 23, 0.4);
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-self: start;
+}
+
+.right-section {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.Title {
+    justify-self: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.5em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+// Stile per tutti i bottoni
+::ng-deep .header {
+    .mat-mdc-button,
+    .mat-mdc-icon-button,
+    .MenuButton {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white !important;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 0.5rem;
+        margin: 0 4px;
+        transition: all 0.3s ease;
+        //centra l'icona nel bottone
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-5%);
+        }
+
+        .mat-icon {
+            color: white;
+        }
+    }
+}
+
+mat-toolbar {
+    display: flex;
+    position: relative;
+}

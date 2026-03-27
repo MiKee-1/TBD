@@ -1,0 +1,67 @@
+<mat-toolbar class="header">
+  
+  <div class="left-section">
+    <button mat-icon-button class="MenuButton" aria-label="Menu button" (click)="goToHome()">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    @if (isLoggedIn()) {
+      @if (isAdmin()) {
+        <button mat-button (click)="goToAdmin()">
+          <mat-icon>admin_panel_settings</mat-icon>
+          Admin
+        </button>
+      }
+
+      @if (!isAdmin()) {
+        <button mat-icon-button
+                aria-label="Shopping cart"
+                (click)="goToCart()"
+                [matBadge]="cartItemCount()"
+                [matBadgeHidden]="cartItemCount() === 0"
+                matBadgeColor="warn">
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+      }
+
+      <button mat-button [matMenuTriggerFor]="userMenu" aria-label="User menu">
+        <mat-icon>person</mat-icon>
+        {{ currentUser()?.firstName }}
+      </button>
+
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item disabled>
+          <mat-icon>email</mat-icon>
+          {{ currentUser()?.email }}
+        </button>
+
+        @if (!isAdmin()) {
+          <button mat-menu-item (click)="goToOrders()">
+            <mat-icon>receipt_long</mat-icon>
+            My Orders
+          </button>
+        }
+
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </mat-menu>
+    } @else {
+      <button mat-button (click)="goToLogin()">
+        <mat-icon>login</mat-icon>
+        Login
+      </button>
+
+      <button mat-button (click)="goToRegister()">
+        <mat-icon>person_add</mat-icon>
+        Register
+      </button>
+    }
+  </div>
+
+  <span class="Title">Sito web esame Sistemi Web</span>
+  
+  <span class="spacer"></span>
+
+</mat-toolbar>

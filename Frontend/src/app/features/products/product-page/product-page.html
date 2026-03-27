@@ -1,0 +1,60 @@
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<section class="container">
+    <header class="header">
+        <h1>PRODOTTI</h1>
+    </header>
+    <mat-form-field class="example-form-field">
+            <mat-label>Cerca</mat-label>
+            <input matInput type="search" name="title" placeholder="Cerca per titolo"
+                (input)="updateTitle($any($event.target).value)" />
+    </mat-form-field>
+    
+    <form class="filters">    
+        <mat-form-field class="example-form-field">
+            <mat-label>Ordina per</mat-label>
+            <mat-select [value]="currentSort$ | async" (selectionChange)="updateSort($any($event.value))">
+                <mat-option value="priceAsc">Prezzo (Crescente)</mat-option>
+                <mat-option value="priceDesc">Prezzo (Decrescente)</mat-option>
+                <mat-option value="dateAsc">Data (Crescente)</mat-option>
+                <mat-option value="dateDesc">Data (Decrescente)</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-form-field">
+            <mat-label>Prezzo minimo</mat-label>
+            <input matInput type="number" name="priceMin" placeholder="Prezzo minimo"
+                (input)="updateMin($any($event.target).value)" max="10000" step="0.1" />
+        </mat-form-field>
+        <mat-form-field class="example-form-field">
+            <mat-label>Prezzo massimo</mat-label>
+            <input matInput type="number" name="priceMax" placeholder="Prezzo massimo"
+                (input)="updateMax($any($event.target).value)" min="0" step="0.1" />
+        </mat-form-field>
+
+        <mat-paginator [length]="(total$ | async) || 0" [pageSize]="pageSize"
+            [pageIndex]="((page$ | async)||1)-1" aria-label="Select page" (page)="onPage($event)">
+        </mat-paginator>
+
+    </form>
+    
+
+    <div class="grid">
+        @for (p of paged$ | async; track p.id) {
+            <app-product-card [product]="p" (add)="onAddToCart($event)">
+            </app-product-card>
+        } @empty {
+            <p class="empty">Nessun prodotto trovato</p>
+        }
+    </div>
+    
+    <div class="pagination-bottom">
+        <mat-paginator [length]="(total$ | async) || 0" [pageSize]="pageSize"
+            [pageIndex]="((page$ | async)||1)-1" aria-label="Select page" (page)="onPage($event)" (click)="navigateToTop()">
+        </mat-paginator>
+    </div>
+
+</section>

@@ -1,0 +1,150 @@
+mat-card-header{
+    border-bottom: #684630 0.3cap solid;
+    margin-bottom: 5rem;
+    max-height: 3rem;
+}
+
+.availability {
+    margin-top: 1rem;
+    font-weight: 500;
+
+    .available {
+        color: #2e7d32;
+    }
+
+    .limited {
+        color: #d32f2f;
+        font-weight: 600;
+    }
+}
+
+.price-original {
+    text-decoration: line-through;
+    color: #A08060;
+    margin-right: 12px;
+}
+
+.price-sale {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+mat-card-content {
+    display: flex;
+    gap: 1.6rem;
+    align-items:flex-start;
+
+    .image-container{
+        height: 30rem;
+        width: 50rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    img{
+        width: 100%;
+        height: 25rem;
+        flex-shrink: 0;
+        border-radius: 0.75rem;
+    }
+
+    .details {
+        flex: 1;
+        border: #684630 0.3cap solid;
+        width: fit-content;
+        padding: 4rem;
+        border-radius: 0.5rem;
+        align-content: center;
+    }
+}
+
+mat-card-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15%;
+}
+
+mat-card-actions {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    button {
+        min-width: 150px;
+    }
+}
+
+.similar-products {
+    margin-top: 48px;
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #3D2B1F;
+    }
+
+    .similar-products-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+
+        .similar-product-card {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-width: 0.4cap;
+            border-color: #684630;
+
+            &:hover {
+                transform: translateY(-0.5rem);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            }
+
+            .similar-product-image-container {
+                width: 100%;
+                height: 15rem;
+                display: flex;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+
+            img {
+                width: fit-content;
+                height: 12.5rem;
+                padding: 1rem;
+            }
+
+            mat-card-content {
+                padding: 16px;
+                display: block;
+
+                mat-card-title {
+                    font-size: 16px;
+                    font-weight: 500;
+                    margin-bottom: 8px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                mat-card-subtitle {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #3D2B1F;
+
+                    .price-sale {
+                        color: #d32f2f;
+                        margin-right: 8px;
+                    }
+
+                    .price-original {
+                        text-decoration: line-through;
+                        color: #A08060;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+regular_user:
+  id: 1
+  email: "user@example.com"
+  first_name: "Mario"
+  last_name: "Rossi"
+  password_digest: "<%= BCrypt::Password.create('password123') %>"
+  role: "user"
+
+admin_user:
+  id: 2
+  email: "admin@example.com"
+  first_name: "Admin"
+  last_name: "User"
+  password_digest: "<%= BCrypt::Password.create('admin123') %>"
+  role: "admin"

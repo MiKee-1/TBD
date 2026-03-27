@@ -1,0 +1,78 @@
+    h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        font-weight: 700;
+        letter-spacing: 1rem;
+        text-transform: uppercase;
+        font-style: italic;
+        color:#382411;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        flex-flow: column wrap;
+    }
+
+
+    .header {
+        display: flex;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+        font-size: x-large;
+    }
+
+    .filters {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(26%, 1fr));
+        row-gap: 2rem !important;
+        column-gap: 1.5rem !important;
+        margin-top: 1.25rem;
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+        
+    }
+
+    .empty {
+        grid-column: 1 / -1;
+        margin-top: 1rem;
+        color: #A08060;
+        text-align: center;
+    }
+
+    app-product-card {
+        width: 100%;
+        max-height: 30rem !important;
+    }
+
+    .pagination-bottom{
+        display: flex;
+        justify-content: center;
+    }
+
+    mat-paginator{
+        background: #fff5e7;
+    }
+
+
+    .example-form-field {
+      ::ng-deep {
+        .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+          background-color: white !important;
+        }
+
+        .mat-mdc-form-field-focus-overlay {
+          background-color: transparent !important;
+        }
+      }
+    }

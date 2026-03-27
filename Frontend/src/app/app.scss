@@ -1,0 +1,18 @@
+.app-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1.5rem 3rem;
+    background: #e9d8c2;
+}
+
+.app-content {
+    width: min(75rem, 100%);
+    background: var(--mat-sys-surface, #FFFDF7);
+    border: 1px solid var(--mat-sys-outline-variant, #C8A882);
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(92, 51, 23, 0.08);
+    padding: 2rem;
+    box-sizing: border-box;
+    background: #fff5e7;
+}

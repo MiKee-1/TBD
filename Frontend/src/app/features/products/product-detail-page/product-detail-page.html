@@ -1,0 +1,81 @@
+<!-- app/features/products/product-detail/product-detail-page.html -->
+@if (product$ | async; as product) {
+<mat-card>
+    <mat-card-header>
+        <mat-card-title class="title">{{ product.title }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class ="image-container">
+            <img mat-card-image [src]="product.thumbnail" [alt]="product.title" />
+        </div>
+        <div class="details">
+            <mat-card-subtitle>
+                @if (product.sale) {
+                <span class="price-original">
+                    Prezzo originale:
+                    {{ product.originalPrice | currency:'EUR' }}
+                </span>
+                <br>
+                <span class="price-sale">
+                    Prezzo scontato:
+                    {{ product.price | currency:'EUR' }}
+                </span>
+                } @else {
+                Prezzo:
+                {{ product.price | currency:'EUR' }}
+                }
+
+            </mat-card-subtitle>
+            <p>Descrizione:</p>
+            <p>{{ product.description }}</p>
+            <br>
+            @if (product.quantity !== undefined && product.quantity !== null) {
+                <p class="availability">
+                    @if (product.quantity >= 10) {
+                        <span class="available">{{ product.quantity }} disponibili</span>
+                    } @else {
+                        <span class="limited">Solo {{ product.quantity }} rimanenti</span>
+                    }
+                </p>
+            }
+            <mat-card-actions>
+                <button mat-raised-button color="accent" (click)="onAddToCart(product)">
+                    Aggiungi al carrello
+                </button>
+                <button mat-raised-button color="primary" routerLink="/products">
+                    Torna al catalogo
+                </button>
+            </mat-card-actions>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+@if (similarProducts$ | async; as similarProducts) {
+    @if (similarProducts.length > 0) {
+        <div class="similar-products">
+            <h2>Prodotti Simili</h2>
+            <div class="similar-products-grid">
+                @for (similar of similarProducts; track similar.id) {
+                    <mat-card class="similar-product-card" (click)="navigateToProduct(similar.id)">
+                        <div class="similar-product-image-container">
+                            <img mat-card-image [src]="similar.thumbnail" [alt]="similar.title"/>
+                        </div>
+                        <mat-card-content>
+                            <mat-card-title>{{ similar.title }}</mat-card-title>
+                            <mat-card-subtitle>
+                                @if (similar.sale) {
+                                    <span class="price-sale">{{ similar.price | currency:'EUR' }}</span>
+                                    <span class="price-original">{{ similar.originalPrice | currency:'EUR' }}</span>
+                                } @else {
+                                    {{ similar.price | currency:'EUR' }}
+                                }
+                            </mat-card-subtitle>
+                        </mat-card-content>
+                    </mat-card>
+                }
+            </div>
+        </div>
+    }
+}
+}

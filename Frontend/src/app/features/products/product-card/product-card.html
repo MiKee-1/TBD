@@ -1,0 +1,31 @@
+<mat-card class="example-card" appearance="outlined">
+    <mat-card-content>
+        <div class="title"><b>{{product.title}}</b></div>
+        @if (product.thumbnail){
+            <div class = "image-container">
+                <img mat-card-image [src]="product.thumbnail" [alt]="product.title" />
+            </div>
+        }
+        
+        <!-- Prezzi -->
+        <div class="price-container">
+            @if (product.originalPrice > product.price) {
+                <div class="discount-badge">-{{getDiscountPercentage()}}%</div>
+                <div class="price-line">
+                    <span class="original-price">{{product.originalPrice | currency: 'EUR': 'symbol': '1.2-2'}}</span>
+                    <span class="sale-price">{{product.price | currency: 'EUR': 'symbol': '1.2-2'}}</span>
+                </div>
+            } @else {
+                <div class="regular-price">{{product.price | currency: 'EUR': 'symbol': '1.2-2'}}</div>
+            }
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-flat-button color="accent" aria-label="Vai ai dettagli" [routerLink]="['/product', product.id]">
+            Dettagli
+        </button>
+        <button mat-flat-button color="primary" aria-label="Aggiungi al carrello" (click)="addToCart(product)">
+            Carrello
+        </button>
+    </mat-card-actions>
+</mat-card>
