@@ -1,5 +1,5 @@
-# Progetto_Sistemi_Web
-# E-Commerce Full-Stack - Progetto Sistemi Web 2025/2026
+# Progetto Teconologie Basi di Dati
+# Database PostgreSQL
 
 Applicazione e-commerce completa sviluppata con Angular (frontend) e Ruby on Rails (backend API).
 
@@ -19,20 +19,12 @@ Applicazione e-commerce completa sviluppata con Angular (frontend) e Ruby on Rai
 - Angular Material 21
 - RxJS con Signals
 
+## Database
+- PostgreSQL locale
+
 ## Prerequisiti Software
 
-### Opzione 1: Con Docker (Raccomandato)
-
-- **Docker:** versione 20.x o superiore
-- **Docker Compose:** versione 2.x o superiore
-
-Verifica versioni:
-```bash
-docker --version          # Docker version 20.x.x o superiore
-docker compose version    # Docker Compose version 2.x.x o superiore
-```
-
-### Opzione 2: Installazione Manuale
+### Installazione Manuale
 
 - **Ruby:** versione 3.4.7 
 - **Rails:** versione 8.1.1 (`gem install rails -v 8.1.1`)
