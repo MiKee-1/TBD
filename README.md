@@ -8,7 +8,7 @@ Applicazione e-commerce completa sviluppata con Angular (frontend) e Ruby on Rai
 ### Backend
 - Ruby 3.4.7
 - Rails 8.1.1 (API mode)
-- SQLite3 (development), PostgreSQL (production recommended)
+- PostgreSQL
 - JWT per autenticazione
 - Pagy per paginazione
 - RSpec per testing
@@ -19,19 +19,14 @@ Applicazione e-commerce completa sviluppata con Angular (frontend) e Ruby on Rai
 - Angular Material 21
 - RxJS con Signals
 
-## Database
-- PostgreSQL locale
-
 ## Prerequisiti Software
 
-### Installazione Manuale
-
-- **Ruby:** versione 3.4.7 
+- **Ruby:** versione 3.4.7
 - **Rails:** versione 8.1.1 (`gem install rails -v 8.1.1`)
 - **Node.js:** versione 20.x o superiore
 - **npm:** versione 10.x o superiore
 - **Angular CLI:** versione 21.x (`npm install -g @angular/cli@21`)
-- **SQLite3:** (generalmente già incluso in macOS/Linux)
+- **PostgreSQL:** versione 14.x o superiore
 
 Verifica versioni:
 ```bash
@@ -40,6 +35,7 @@ rails -v       # 8.1.1
 node -v        # v20.x.x
 npm -v         # 10.x.x
 ng version     # 21.x.x
+psql --version # 14.x.x
 ```
 
 ## Setup Progetto
@@ -51,24 +47,23 @@ git clone https://github.com/MiKee-1/Progetto_Sistemi_Web
 cd Progetto_Sistemi_Web
 ```
 
-### 2. Avvio con Docker
+### 2. Configurazione Database
 
-#### Step 1: Setup iniziale (solo la prima volta)
+Assicurati che PostgreSQL sia in esecuzione e configura le variabili d'ambiente per le credenziali:
 
 ```bash
-# Build e avvio dei container in background
-docker compose up -d --build
+export DATABASE_USER=<tuo_utente_postgres>
+export DATABASE_PASSWORD=<tua_password_postgres>
+```
 
-# Crea il database e le tabelle per il backend
-docker exec progetto_sistemi_web-backend-1 bin/rails db:create
-docker exec progetto_sistemi_web-backend-1 bin/rails db:migrate
-docker exec progetto_sistemi_web-backend-1 bin/rails db:seed
+### 3. Setup Backend
 
-# Installa le dipendenze del frontend
-docker exec progetto_sistemi_web-frontend-1 npm install
-
-# Ferma i container
-docker compose down
+```bash
+cd Backend
+bundle install
+rails db:create
+rails db:migrate
+rails db:seed
 ```
 
 Il seed crea:
@@ -76,75 +71,31 @@ Il seed crea:
 - **2 Utenti:** `user@example.com` / `password123`, `user2@example.com` / `password123`
 - **~50 Prodotti** importati da `Frontend/shop-mock-api/db.json`
 
-#### Step 2: Avvio applicazione
+### 4. Setup Frontend
 
 ```bash
-# Build delle immagini e avvio dei container (in modalità attached per vedere i log)
-docker compose up --build
+cd Frontend
+npm install
 ```
 
-**Nota:** Al primo avvio, attendi che Angular compili completamente (vedrai "Compiled successfully" nei log).
+## Avvio Applicazione
 
-Questo comando:
-- Compila le immagini Docker per backend e frontend
-- Avvia i container in modalità attached (vedrai i log)
-- Il backend sarà disponibile su: http://localhost:3000
-- Il frontend sarà disponibile su: http://localhost:4200
+Aprire due terminali separati:
 
-#### Step 3: Verifica installazione
-
-Apri il browser su http://localhost:4200 - dovresti vedere la homepage con i prodotti caricati.
-
-#### Comandi Docker Utili
-
+**Terminale 1 — Backend:**
 ```bash
-# Avvio container in background (dopo il primo build)
-docker compose up -d
-
-# Avvio con rebuild delle immagini
-docker compose up --build
-
-# Stop dei container
-docker compose down
-
-# Stop e rimuovi volumi
-docker compose down -v
-
-# Visualizza log
-docker compose logs -f
-
-# Riavvia un singolo servizio
-docker compose restart backend
-docker compose restart frontend
-
-# Accedi alla shell del container backend
-docker exec -it progetto_sistemi_web-backend-1 bash
-
-# Esegui comandi Rails
-docker exec progetto_sistemi_web-backend-1 bin/rails console
-docker exec progetto_sistemi_web-backend-1 bin/rails routes
-docker exec progetto_sistemi_web-backend-1 bin/rails db:reset
-
-# Esegui comandi npm nel frontend
-docker exec progetto_sistemi_web-frontend-1 npm install
-docker exec progetto_sistemi_web-frontend-1 npm run build
+cd Backend
+rails server
 ```
 
-
-#### Comando per aggiungere un ordine da console ruby:
-```ruby
-product = Product.first  # oppure Product.find("id-del-prodotto")
-order = Order.create!(
-  customer: { "firstName" => "Mario", "lastName" => "Rossi", "email" => "mario@test.com" },
-  address:  { "street" => "Via Roma 1", "city" => "Milano", "zip" => "20100" },
-  total:    product.price,
-  order_items_attributes: [
-    { product_id: product.id, quantity: 1, unit_price: product.price }
-  ]
-)
-
-order.update_column(:creatred_at, 3.days_ago)
+**Terminale 2 — Frontend:**
+```bash
+cd Frontend
+ng serve
 ```
+
+- Backend disponibile su: http://localhost:3000
+- Frontend disponibile su: http://localhost:4200
 
 ---
 
@@ -241,7 +192,7 @@ order_items
 
 ## Funzionalità Avanzate Implementate
 
-### 1. Area Amministratore 
+### 1. Area Amministratore
 
 Dashboard completa con:
 - **Statistiche Real-time:**
@@ -265,9 +216,9 @@ Dashboard completa con:
   - Backend: `before_action :require_admin!`
   - Frontend: `adminGuard` su route `/admin`
 
-### 2. Filtri avanzati nell'o storico ordini
+### 2. Filtri avanzati nello storico ordini
 
-Possibilità di eseguire ricerche degli ordini con filtri personalizzati
+Possibilità di eseguire ricerche degli ordini con filtri personalizzati:
 - **Ricerca del prodotto per nome**
    - possibilità di cercare uno specifico prodotto per ogni ordine
 - **Ricerca per data (inizio e fine)**
@@ -278,7 +229,6 @@ Possibilità di eseguire ricerche degli ordini con filtri personalizzati
 ## Testing
  - **Un test su controller e un test su model**
 
-
 ## Troubleshooting
 
 ### I prodotti non vengono mostrati
@@ -287,32 +237,11 @@ Possibilità di eseguire ricerche degli ordini con filtri personalizzati
 
 **Soluzione:**
 ```bash
-# Con Docker
-docker exec progetto_sistemi_web-backend-1 bin/rails db:seed
-
-# Verifica che i prodotti siano stati caricati
-docker exec progetto_sistemi_web-backend-1 bin/rails runner "puts Product.count"
-
-# Manuale
 cd Backend
 rails db:seed
-```
 
-### Errore "Mock data file not found"
-
-**Causa:** Il container backend non riesce a trovare il file `Frontend/shop-mock-api/db.json`.
-
-**Soluzione:** Verifica che il file esista e che il volume sia montato correttamente in `docker-compose.yml`:
-```yaml
-volumes:
-  - ./Backend:/rails
-  - ./Frontend:/Frontend:ro  # Questa riga deve essere presente
-```
-
-Se hai modificato il `docker-compose.yml`, riavvia i container:
-```bash
-docker compose down
-docker compose up --build
+# Verifica che i prodotti siano stati caricati
+rails runner "puts Product.count"
 ```
 
 ### Il frontend non si connette al backend
@@ -324,54 +253,11 @@ docker compose up --build
 2. Controlla la configurazione in `Frontend/src/app/core/services/product-api.ts`
 3. Verifica CORS in `Backend/config/initializers/cors.rb`
 
-### Permessi negati su Docker
+### Errore di connessione al database
 
-**Causa:** File creati dal container Docker potrebbero avere permessi diversi dall'utente host.
+**Causa:** PostgreSQL non è in esecuzione o le credenziali non sono corrette.
 
 **Soluzione:**
-La configurazione Docker è stata ottimizzata per gestire automaticamente i permessi. Se riscontri ancora problemi:
-
-```bash
-# Ferma i container
-docker compose down
-
-# Ripristina proprietà corretta sui file host
-sudo chown -R $USER:$USER Backend Frontend
-
-# Rimuovi i volumi e ricrea
-docker compose down -v
-docker compose up --build
-```
-
-Se i problemi persistono, puoi modificare i permessi dei file locali:
-```bash
-chmod -R 755 Backend Frontend
-```
-
-### Backend "già in esecuzione"
-Può capitare di chiudere docker forzatamente premendo "ctrl+c" due volte di fila.
-Consiglio di terminare i container **premendo UNA volta ctrl+c**, oppure con:
-```bash
-docker compose down
-```
-
-Se dovesse accadere un errore simile:
-```bash
-backend-1   | => Booting Puma
-backend-1   | => Rails 8.1.1 application starting in development 
-backend-1   | => Run `bin/rails server --help` for more startup options
-backend-1   | A server is already running (pid: 1, file: /rails/tmp/pids/server.pid).
-backend-1   | Exiting
-backend-1 exited with code 1
-```
-Bisognerà eliminare il file server.pid
-```bash
-#terminiamo i container
-docker compose down
-
-#eliminiamo il file pid contenente il backend "fantasma"
-sudo rm Backend/tmp/pids/server.pid
-
-#riavviamo docker
-docker compose up --build
-````
+1. Verifica che PostgreSQL sia in esecuzione: `pg_isready`
+2. Controlla che le variabili d'ambiente `DATABASE_USER` e `DATABASE_PASSWORD` siano impostate correttamente
+3. Verifica la configurazione in `Backend/config/database.yml`
